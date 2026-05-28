@@ -14,7 +14,6 @@ class DiceLoss(nn.Module):
         dice = (2.0 * intersection + self.smooth) / (union + self.smooth)
         return 1.0 - dice.mean()
 
-
 class BCEDiceLoss(nn.Module):
     def __init__(self, bce_weight=0.5, dice_weight=0.5):
         super().__init__()

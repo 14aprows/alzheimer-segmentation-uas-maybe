@@ -26,7 +26,7 @@ def main():
             f"Loss: {train_metrics['loss']:.4f} "
             f"Dice: {train_metrics['dice']:.4f} "
             f"IoU: {train_metrics['iou']:.4f} "
-            f"Acc: {train_metrics['accuracy']:.4f}"
+            f"Acc: {train_metrics['acc']:.4f}"
         )
     torch.save(model.state_dict(), "unet_final.pth")
     print("Saved model")

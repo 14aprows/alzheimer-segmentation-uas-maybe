@@ -4,7 +4,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "dataset"
 GLIOMA_DIR = DATA_DIR / "Glioma"
 MENINGIOMA_DIR = DATA_DIR / "Meningioma"
-PITUITARY_DIR = DATA_DIR / "Pituitary"
+PITUITARY_DIR = DATA_DIR / "Pituitary tumor"
 
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 LOG_DIR = OUTPUT_DIR / "logs"

@@ -61,7 +61,7 @@ class BrainSegmentationDataset(Dataset):
             mask = transformed["mask"]
 
         image = image.astype(np.float32) / 255.0
-        mask = (mask > 0).astype(np.float32)
+        mask = (mask > 127).astype(np.float32)
 
         image = torch.from_numpy(image).unsqueeze(0)
         mask = torch.from_numpy(mask).unsqueeze(0)

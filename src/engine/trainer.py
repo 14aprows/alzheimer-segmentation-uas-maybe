@@ -32,3 +32,32 @@ def train_one_epoch(model, dataloader, criterion, optimizer, device):
         "iou": iou / num_batches,
         "acc": acc / num_batches,
     }
+
+@torch.no_grad()
+def validate_one_epoch(model, dataloader, criterion, device):
+    model.eval()
+
+    loss = 0.0
+    dice = 0.0
+    iou = 0.0
+    acc = 0.0
+
+    for batch in dataloader:
+        images = batch["image"].to(device)
+        masks = batch["mask"].to(device)
+
+        logits = model(images)
+        loss_value = criterion(logits, masks)
+
+        loss += loss_value.item()
+        dice += dice_score(logits, masks).item()
+        iou += iou_score(logits, masks).item()
+        acc += pixel_accuracy(logits, masks).item()
+    
+    num_batches = len(dataloader)
+    return {
+        "loss": loss / num_batches,
+        "dice": dice / num_batches,
+        "iou": iou / num_batches,
+        "acc": acc / num_batches,
+    }

@@ -1,8 +1,8 @@
-import torch
 from torch.utils.data import DataLoader, Subset
 from src.configs.config import GLIOMA_DIR, MENINGIOMA_DIR, PITUITARY_DIR, IMAGE_SIZE, BATCH_SIZE, SEED
 from src.data.dataset import BrainSegmentationDataset
 from src.data.transforms import get_train_transform, get_val_transform
+from sklearn.model_selection import train_test_split
 
 def get_data_dirs():
     return [
@@ -11,13 +11,17 @@ def get_data_dirs():
         PITUITARY_DIR,
     ]
 
-def split_indices(dataset_size, train_ratio=0.8, seed=42):
-    generator = torch.Generator().manual_seed(seed)
-    indices = torch.randperm(dataset_size, generator=generator).tolist()
+def split_indices(dataset, train_ratio=0.8, seed=42):
+    indices = list(range(len(dataset)))
+    labels = [sample["tumor_type"] for sample in dataset.samples]
 
-    train_size = int(train_ratio * dataset_size)
-    train_indices = indices[:train_size]
-    val_indices = indices[train_size:]
+    train_indices, val_indices = train_test_split(
+        indices,
+        train_size=train_ratio,
+        test_size=1 - train_ratio,
+        random_state=seed,
+        stratify=labels,
+    )
 
     return train_indices, val_indices
 
@@ -30,7 +34,7 @@ def create_dataloaders():
     )
 
     train_indices, val_indices = split_indices(
-        dataset_size=len(base_dataset),
+        dataset=base_dataset,
         train_ratio=0.8,
         seed=SEED,
     )

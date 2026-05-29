@@ -5,7 +5,7 @@ class ResidualConv(nn.Module):
     def __init__(self, in_channels, out_channels):
         super().__init__()
 
-        super.conv_block = nn.Sequential(
+        self.conv_block = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
@@ -37,8 +37,6 @@ class ResUNet(nn.Module):
         self.pool3 = nn.MaxPool2d(kernel_size=2)
 
         self.bottleneck = ResidualConv(256, 512)
-
-        self.bottleneck = ResidualConv(512, 256, kernel_size=2, stride=2)
 
         self.up3 = nn.ConvTranspose2d(512, 256, kernel_size=2, stride=2)
         self.conv3 = ResidualConv(512, 256)

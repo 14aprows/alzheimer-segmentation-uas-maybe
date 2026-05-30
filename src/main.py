@@ -5,6 +5,7 @@ from src.engine.trainer import train_one_epoch, validate_one_epoch
 from src.losses.loss import BCEDiceLoss
 from src.models.unet import UNet
 from src.models.resunet import ResUNet
+from src.models.attention_unet import AttentionUNet
 from src.utils.logger import init_csv_logger, log_to_csv
 
 def main():
@@ -20,7 +21,10 @@ def main():
     # model = UNet(in_channels=1, out_channels=1).to(device)
 
     # ResUNet
-    model = ResUNet(in_channels=1, out_channels=1).to(device)
+    # model = ResUNet(in_channels=1, out_channels=1).to(device)
+
+    # Attention UNet
+    model = AttentionUNet(in_channels=1, out_channels=1).to(device)
     model_name = model.__class__.__name__
 
     criterion = BCEDiceLoss()
